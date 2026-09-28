@@ -1,0 +1,12 @@
+Type=X-GNOME-Metatheme
+[Desktop Entry]
+Name=everforest-light-medium1-Teal-Light-Medium
+Comment=An Flat Gtk+ theme based on Elegant Design
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=everforest-light-medium1-Teal-Light-Medium
+MetacityTheme=everforest-light-medium1-Teal-Light-Medium
+IconTheme=Tela-circle
+CursorTheme=everforest-light-medium1-cursors
+ButtonLayout=close,minimize,maximize:menu

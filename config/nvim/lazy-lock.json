@@ -1,0 +1,9 @@
+{
+  "everforest": { "branch": "main", "commit": "d235ca0aa6a29546e661a020e2618612acbbffbe" },
+  "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "neo-tree.nvim": { "branch": "v3.x", "commit": "ebd66767191714e008ce73b769518a763ff31bdc" },
+  "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
+  "nvim-colorizer.lua": { "branch": "master", "commit": "664c0b7cea1de71f8b65dfe951b7996fc3e6ccde" },
+  "nvim-web-devicons": { "branch": "master", "commit": "0d7d35fa946837b8738b17c18d1faa1ac351e7f9" },
+  "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" }
+}
