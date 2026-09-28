@@ -5,7 +5,6 @@
   home.username = "jorvik";
   home.homeDirectory = "/home/jorvik";
   home.stateVersion = "26.05";
-  programs.git.enable = true;
   
   services.udiskie = {
       enable = true;
@@ -15,6 +14,16 @@
           };
       };
   };
+
+    programs.git = {
+    enable = true;
+    settings.user = {
+      name  = "Jorvik-H";
+      email = "jorvik.halgensboeurgner@gmail.com";
+    };
+  };
+
+
 
   home.file.".config/yazi" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/yazi";
