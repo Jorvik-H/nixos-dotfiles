@@ -1,7 +1,12 @@
 
-{ config, pkgs, lib,  ... }:
+{ config, pkgs, lib, inputs, ... }:
 
+let
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+in
 {
+  imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
+
   home.username = "jorvik";
   home.homeDirectory = "/home/jorvik";
   home.stateVersion = "26.05";
@@ -15,6 +20,23 @@
       email = "jorvik.halgensboeurgner@gmail.com";
     };
   };
+
+#SPICETIFY
+  programs.spicetify = {
+    enable = true;
+    enabledExtensions = with spicePkgs.extensions; [
+    ];
+    theme = {
+      name = "retroplayer";
+      src = pkgs.fetchFromGitHub{
+        owner = "Jorvik-H";
+        repo = "Spotifyconf";
+        rev = "6b05ab1ed026c4304956da56f035b8b017070511";
+        hash = "sha256-D+k3PiJIgZCj/sdwhwMdk2rEMxox/LvAKkybrbOecx4=";
+      }; 
+    };
+  };
+
 
 #KEEP APPS FROM MAKING CAPITALIZED DIRETORIES IN HOME
 
@@ -60,6 +82,11 @@
   
   home.file.".icons/Vimix-hypr" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/icons/cursor/Vimix-hypr";
+    recursive = true; 
+  };
+
+  home.file.".icons/Vimix-X" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/icons/cursor/Vimix-X";
     recursive = true; 
   };
 

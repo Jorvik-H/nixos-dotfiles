@@ -9,7 +9,6 @@
 alias update='git add . && git commit -m "update" && git push'
 alias ls='eza -l'
 alias grep='grep --color=auto'
-alias nrs='nixos-rebuild switch'
 alias config='cd ~/nixos-dotfiles/config && eza -l'
 #PS1='[\u@\h \W]\$ '
 

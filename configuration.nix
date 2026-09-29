@@ -85,12 +85,12 @@
     vesktop
     htop
     ferdium
-    spotify
     musescore
     gimp
     libreoffice
     prismlauncher
     obsidian
+    chromium
     
     #command line utilities
     fastfetch

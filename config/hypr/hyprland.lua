@@ -5,7 +5,7 @@
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
     output   = "",
-    mode     = "preferred",
+    mode     = "highres",
     position = "auto",
     scale    = "auto",
 })
@@ -366,6 +366,13 @@ hl.window_rule({
     no_focus = true,
 })
 
+-- XWAYLAND SHIT
+
+hl.config({ xwayland = { force_zero_scaling = true } })
+
+hl.env("GDK_SCALE", "1.25")
+hl.env("XCURSOR_SIZE", "32")
+hl.env("XCURSOR_THEME", "Vimix-X")
 -- Layer rules also return a handle.
 -- local overlayLayerRule = hl.layer_rule({
 --     name  = "no-anim-overlay",

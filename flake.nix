@@ -7,9 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
     nixosConfigurations.HP-OfficeJet-Pro-1869 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -19,6 +23,7 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
+            extraSpecialArgs = { inherit inputs; };
             users.jorvik = import ./home.nix;
             backupFileExtension = "backup";
           };
