@@ -1,21 +1,14 @@
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib,  ... }:
 
 {
   home.username = "jorvik";
   home.homeDirectory = "/home/jorvik";
   home.stateVersion = "26.05";
   
-  services.udiskie = {
-      enable = true;
-      settings = {
-          program_options = {
-              file_manager = "${pkgs.nemo-with-extensions}/bin/nemo";
-          };
-      };
-  };
+#GIT SETTINGS
 
-    programs.git = {
+  programs.git = {
     enable = true;
     settings.user = {
       name  = "Jorvik-H";
@@ -23,7 +16,25 @@
     };
   };
 
+#KEEP APPS FROM MAKING CAPITALIZED DIRETORIES IN HOME
 
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    desktop     = "${config.home.homeDirectory}/downloads";
+    documents   = "${config.home.homeDirectory}/downloads";
+    download    = "${config.home.homeDirectory}/downloads";
+    music       = "${config.home.homeDirectory}/downloads";
+    pictures    = "${config.home.homeDirectory}/downloads";
+    publicShare = "${config.home.homeDirectory}/downloads";
+    templates   = "${config.home.homeDirectory}/downloads";
+    videos      = "${config.home.homeDirectory}/downloads";
+    projects    = "${config.home.homeDirectory}/downloads";
+  };
+
+  xdg.configFile."user-dirs.conf".text = "enabled=False";
+  
+#DOTFILES 
 
   home.file.".config/yazi" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/yazi";

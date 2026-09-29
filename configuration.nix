@@ -18,12 +18,23 @@
     enable = true;
     xwayland.enable = true;  
   };
+  programs.xwayland.enable = true;
 
-  services.displayManager.ly.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      session_log = "/dev/null";
+    };
+  };
 
   services.printing.enable = true;
   
-  services.udisks2.enable = true;
+  services.blueman.enable = true;
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   services.pipewire = {
     enable = true;
@@ -58,9 +69,6 @@
     openssh
     ffmpeg
     bluez
-    udiskie
-    udisks2
-    nemo
 
     #settings type shit
     hyprsunset
@@ -96,6 +104,7 @@
     p7zip
     cava
     tty-clock
+    cbonsai
     mpv
 
 
