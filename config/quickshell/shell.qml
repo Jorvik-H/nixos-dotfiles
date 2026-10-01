@@ -13,11 +13,6 @@ import Quickshell.Bluetooth
 PanelWindow {
   id: root
 
-
-
-
-
-
   anchors.top: true
   anchors.left: true
   anchors.right: true
@@ -173,12 +168,12 @@ PanelWindow {
 
     property int memUsage: 0
 
-    anchors.right: bt.left
+    anchors.right: vol.left
     anchors.rightMargin: 12
     anchors.verticalCenter: parent.verticalCenter
 
     text: "  " + memUsage + "%"
-    color: memUsage > 90 ? "#e67e80" : "#a7c080"
+    color: memUsage > 90 ? "#e67e80" : "#d699b6"
     font.pixelSize: 13
 
     Process {
@@ -287,7 +282,7 @@ PanelWindow {
   Text {
     id: bright
 
-    anchors.right: cpu.left
+    anchors.right: bt.left
     anchors.rightMargin: 12
     anchors.verticalCenter: parent.verticalCenter
 
@@ -368,7 +363,7 @@ PanelWindow {
     visible: sink !== null
 
     text: icon + " " + (muted ? "muted" : level + "%")
-    color: muted ? "#859289" : "#d699b6"
+    color: muted ? "#859289" : "#a7c080"
     font.family: "JetBrainsMono Nerd Font"
     font.pixelSize: 13
 
@@ -395,7 +390,7 @@ PanelWindow {
         if (!vol.sink)
           return;
 
-        var delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05;
+        var delta = wheel.angleDelta.y > 0 ? 0.01 : -0.01;
         vol.sink.audio.volume = Math.max(0, Math.min(1, vol.sink.audio.volume + delta));
       }
     }
