@@ -514,13 +514,13 @@ PanelWindow {
     }
   }
 
-//Notifications
+//NOTIFICATIONS
   
   Notifications {}
 
+//LAUNCHER
 
-
-
+  Launcher {}
 
 
 }

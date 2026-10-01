@@ -62,7 +62,6 @@
     hypridle
     hyprcursor
     hyprpolkitagent
-    rofi
     kitty
     quickshell
 

@@ -32,8 +32,8 @@ local terminal    = "kitty"
 local fileManager = "kitty -e yazi"
 local browser 	  = "librewolf"
 local music       = "spotify"
-local launcher    = "rofi -show drun -show-icons"
-local runner      = "rofi -show run"
+local launcher    = "qs ipc call launcher apps"
+local runner      = "qs ipc call launcher procs"
 
 -------------------
 ---- AUTOSTART ----
@@ -262,7 +262,7 @@ hl.bind(secondMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(secondMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(secondMod .. " + SPACE", hl.dsp.exec_cmd(launcher))
 hl.bind(secondMod .. " + F", hl.dsp.exec_cmd(browser))
-hl.bind(secondMod .. " + C", hl.dsp.exec_cmd("helium-browser"))
+hl.bind(secondMod .. " + C", hl.dsp.exec_cmd("chromium"))
 hl.bind(secondMod .. " + D", hl.dsp.exec_cmd("ferdium"))
 hl.bind(secondMod .. " + N", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(runner))

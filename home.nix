@@ -156,11 +156,6 @@ in
     recursive = true; 
   };
   
-  home.file.".config/rofi" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/rofi";
-    recursive = true; 
-  };
-  
   home.file.".themes" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/.themes";
     recursive = true; 
