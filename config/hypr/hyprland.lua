@@ -50,7 +50,7 @@ local runner      = "rofi -show run"
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
 -- end)
 hl.on("hyprland.start", function()
-	hl.exec_cmd("waybar")
+	hl.exec_cmd("qs")
 	hl.exec_cmd("systemctl --usr start hyprpolkitagent")
 	hl.exec_cmd("awww-daemon")
 	hl.exec_cmd("awww img ~/nixos-dotfiles/icons/wallpaper/wallpaper4.jpg")
@@ -274,6 +274,8 @@ hl.bind(secondMod .. " + S", function()
 	hl.dispatch(hl.dsp.exec_cmd("spotify"))
 	hl.dispatch(hl.dsp.exec_cmd("kitty -e cava"))
 end)
+
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("qs ipc call notifications toggle"))
 
 --Nav functions
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
