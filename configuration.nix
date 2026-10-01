@@ -58,10 +58,10 @@
     hypridle
     hyprcursor
     hyprpolkitagent
-    waybar
     mako
     rofi
     kitty
+    quickshell
 
     #shit ima never think abt
     libnotify
@@ -69,6 +69,8 @@
     openssh
     ffmpeg
     bluez
+    brightnessctl
+    upower
 
     #settings type shit
     hyprsunset
@@ -77,6 +79,7 @@
     pavucontrol
     impala
     blueman
+    networkmanagerapplet
 
     #regular ass aplications
     neovim
@@ -91,7 +94,7 @@
     prismlauncher
     obsidian
     chromium
-    
+
     #command line utilities
     fastfetch
     eza

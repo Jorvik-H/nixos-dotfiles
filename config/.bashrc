@@ -10,6 +10,10 @@ alias update='git add . && git commit -m "update" && git push'
 alias ls='eza -l'
 alias grep='grep --color=auto'
 alias config='cd ~/nixos-dotfiles/config && eza -l'
+alias home='nvim ~/nixos-dotfiles/home.nix'
+alias pkg='nvim ~/nixos-dotfiles/configuration.nix'
+
+
 #PS1='[\u@\h \W]\$ '
 
 export BROWSER='/usr/sbin/librewolf'

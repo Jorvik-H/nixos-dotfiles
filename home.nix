@@ -3,6 +3,7 @@
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  assoc = app: types: lib.genAttrs types (_: [ app ]);
 in
 {
   imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
@@ -55,7 +56,67 @@ in
   };
 
   xdg.configFile."user-dirs.conf".text = "enabled=False";
-  
+ 
+#MIMEAPP DEFAULTS
+
+
+  home.packages = with pkgs; [ kitty neovim yazi mpv librewolf libreoffice ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
+  xdg.desktopEntries = {
+    nvim-kitty = {
+      name = "Neovim (kitty)";
+      exec = "kitty -e nvim %F";
+      noDisplay = true;
+    };
+    yazi-kitty = {
+      name = "Yazi (kitty)";
+      exec = "kitty -e yazi %F";
+      noDisplay = true;
+    };
+  };
+
+    xdg.mimeApps = {
+    enable = true;
+    defaultApplications = lib.mkMerge [
+      (assoc "librewolf.desktop" [
+        "text/html" "x-scheme-handler/http" "x-scheme-handler/https"
+      ])
+      (assoc "mpv.desktop" [
+        "video/mp4" "video/x-matroska" "video/webm"
+        "audio/mpeg" "audio/flac" "audio/ogg"
+        "image/png" "image/jpeg" "image/gif" "image/webp"
+      ])
+      (assoc "nvim-kitty.desktop" [
+        "text/plain" "text/markdown" "text/x-python" "text/x-shellscript"
+        "application/json" "application/x-yaml" "application/toml"
+      ])
+      (assoc "yazi-kitty.desktop" [ "inode/directory" ])
+      (assoc "libreoffice-writer.desktop" [
+        "application/msword"
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "application/vnd.oasis.opendocument.text"
+      ])
+      (assoc "libreoffice-calc.desktop" [
+        "text/csv"
+        "application/vnd.ms-excel"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.oasis.opendocument.spreadsheet"
+      ])
+      (assoc "libreoffice-impress.desktop" [
+        "application/vnd.ms-powerpoint"
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        "application/vnd.oasis.opendocument.presentation"
+      ])
+    ];
+  };
+
+
+
 #DOTFILES 
 
   home.file.".config/yazi" = {
@@ -90,8 +151,8 @@ in
     recursive = true; 
   };
 
-  home.file.".config/waybar" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/waybar";
+  home.file.".config/quickshell" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/quickshell";
     recursive = true; 
   };
 
