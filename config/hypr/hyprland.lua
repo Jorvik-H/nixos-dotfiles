@@ -20,8 +20,8 @@ hl.monitor({
 hl.monitor({
     output = "HDMI-A-1",
     mode = "1920x1080@60",
-    position = "1280x0",
-    scale = "1", 
+    position = "1536x0",
+    scale = "1.25", 
 })
 ---------------------
 ---- MY PROGRAMS ----
@@ -235,12 +235,19 @@ hl.config({
         },
     },
 })
+hl.gesture({
+    fingers = 3,
+    direction = "down",
+    action = "close"
+})
 
 hl.gesture({
     fingers = 3,
     direction = "horizontal",
     action = "workspace"
 })
+
+hl.gesture({ fingers = 2, direction = "pinch", action = "cursor_zoom", zoom_level = 1, mode = "live" })
 
 -- Example per-device config
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more

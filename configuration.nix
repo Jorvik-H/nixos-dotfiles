@@ -11,6 +11,7 @@
 
   networking.hostName = "HP-OfficeJet-Pro-1869"; 
   networking.networkmanager.enable = true;
+  networking.firewall.enable = true;
 
   time.timeZone = "America/Edmonton";
  
@@ -46,6 +47,8 @@
   };
 
   services.libinput.enable = true;
+
+  programs.kdeconnect.enable = true;
 
   users.users.jorvik = {
     isNormalUser = true;
@@ -111,7 +114,7 @@
     tty-clock
     cbonsai
     mpv
-
+    _7zz
 
   ];
 
