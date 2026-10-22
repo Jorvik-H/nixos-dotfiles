@@ -12,7 +12,7 @@ alias grep='grep --color=auto'
 alias config='cd ~/nixos-dotfiles/config && eza -l'
 alias home='nvim ~/nixos-dotfiles/home.nix'
 alias pkg='nvim ~/nixos-dotfiles/configuration.nix'
-
+alias notes='nvim ~/documents/Obsidian-Vault'
 
 #PS1='[\u@\h \W]\$ '
 

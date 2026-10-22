@@ -37,6 +37,10 @@
     powerOnBoot = true;
   };
 
+programs.steam = {
+  enable = true;
+};
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -115,7 +119,7 @@
     cbonsai
     mpv
     _7zz
-
+    unzip
   ];
 
   fonts.packages = with pkgs; [
