@@ -3,7 +3,7 @@
 {
   imports =
     [ 
-      /etc/nixos/hardware-configuration.nix
+      ./config/hardware-configuration.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -40,6 +40,16 @@
 programs.steam = {
   enable = true;
 };
+
+services.logind.settings.Login = {
+  HandleLidSwitch = "lock";
+  HandleLidSwitchExternalPower = "lock";
+  HandleLidSwitchDocked = "ignore";
+};
+
+services.thermald.enable = true;
+
+services.tlp.enable = true;
 
   security.rtkit.enable = true;
   services.pipewire = {

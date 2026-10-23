@@ -13,6 +13,7 @@ alias config='cd ~/nixos-dotfiles/config && eza -l'
 alias home='nvim ~/nixos-dotfiles/home.nix'
 alias pkg='nvim ~/nixos-dotfiles/configuration.nix'
 alias notes='nvim ~/documents/Obsidian-Vault'
+alias nrs='sudo nixos-rebuild switch --flake ~/nixos-dotfiles'
 
 #PS1='[\u@\h \W]\$ '
 

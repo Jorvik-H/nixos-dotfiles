@@ -522,5 +522,8 @@ PanelWindow {
 
   Launcher {}
 
+//MEDIA PLAYER
+  
+  Media {}
 
 }
