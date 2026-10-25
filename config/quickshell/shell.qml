@@ -39,7 +39,7 @@ Scope {
         anchors.centerIn: parent
 
         id: clock
-        visible: !root.launching
+        visible: !root.launching && !root.osdActive && !root.lowBattery && !root.chargeActive && !root.wifiActive
 
         SystemClock {
           id: sysClock
@@ -51,6 +51,142 @@ Scope {
         font.pixelSize: 13
         font.family: "JetBrainsMono Nerd Font"
         font.bold: true
+      }
+
+      //VOLUME / BRIGHTNESS READOUT
+
+      Text {
+        anchors.centerIn: parent
+        visible: root.osdActive && !root.launching
+
+        text: root.osdText
+        color: root.osdColor
+        font.pixelSize: 13
+        font.family: "JetBrainsMono Nerd Font"
+        font.bold: true
+      }
+      //LOW BATTERY WARNING
+
+      Text {
+        anchors.centerIn: parent
+        visible: root.lowBattery && !root.osdActive && !root.launching
+
+        text: "[ low battery : " + bat.level + "% ]"
+        color: "#e67e80"
+        font.pixelSize: 13
+        font.family: "JetBrainsMono Nerd Font"
+        font.bold: true
+      }
+
+      //CHARGING MESSAGE
+
+      Text {
+        anchors.centerIn: parent
+        visible: root.chargeActive && !root.osdActive && !root.launching
+
+        text: "[  battery: charging  ]"
+        color: "#a7c080"
+        font.pixelSize: 13
+        font.family: "JetBrainsMono Nerd Font"
+        font.bold: true
+      }
+
+      //WIFI OVERLAY
+
+      Text {
+        anchors.centerIn: parent
+        visible: root.wifiActive && !root.osdActive && !root.launching && !root.lowBattery && !root.chargeActive
+
+        text: root.wifiState === "connecting" ? "[  wifi: connecting...  ]"
+            : root.wifiState === "connected" ? "[  wifi: connected  ]"
+            : "[  wifi: disconnected  ]"
+        color: root.wifiState === "connecting" ? "#dbbc7f"
+             : root.wifiState === "connected" ? "#a7c080"
+             : "#e67e80"
+        font.pixelSize: 13
+        font.family: "JetBrainsMono Nerd Font"
+        font.bold: true
+      }
+
+
+      // ---------- Wifi connection overlay ----------
+      property string wifiState: ""   // "connected", "connecting" or "disconnected"
+      property bool wifiFlash: false
+      property bool wifiActive: osdReady && (wifiState === "connecting" || wifiFlash)
+
+      function setWifiState(s) {
+        if (s === "" || s === wifiState)
+          return;
+
+        var first = wifiState === "";
+        wifiState = s;
+
+        // The first reading after startup isn't announced
+        if (first || !osdReady)
+          return;
+
+        if (s === "connecting") {
+          wifiFlash = false;
+          wifiTimer.stop();
+        } else {
+          wifiFlash = true;
+          wifiTimer.restart();
+        }
+      }
+
+      Timer {
+        id: wifiTimer
+        interval: 3000
+        onTriggered: root.wifiFlash = false
+      }
+
+
+      // Brief "charging" message shown right after plugging in
+      property bool chargeActive: false
+
+      function showCharging() {
+        if (!osdReady)
+          return;
+
+        chargeActive = true;
+        chargeTimer.restart();
+      }
+
+      Timer {
+        id: chargeTimer
+        interval: 3000
+        onTriggered: root.chargeActive = false
+      }
+
+      // True while the battery is at 10% or below and not charging
+      property bool lowBattery: bat.present && !bat.charging && bat.level <= 10
+
+      // ---------- Volume / brightness readout (replaces the clock briefly) ----------
+      property string osdText: ""
+      property color osdColor: "#d3c6aa"
+      property bool osdActive: false
+      property bool osdReady: false   // ignore the values read at startup
+
+      function showOsd(text, color) {
+        if (!osdReady)
+          return;
+
+        osdText = text;
+        osdColor = color;
+        osdActive = true;
+        osdTimer.restart();
+      }
+
+      Timer {
+        interval: 2000
+        running: true
+        onTriggered: root.osdReady = true
+      }
+
+      Timer {
+        id: osdTimer
+        interval: 1500
+        onTriggered: root.osdActive = false
       }
 
       //WORKSPACES
@@ -239,7 +375,14 @@ Scope {
 
         visible: present
 
-        text: (charging ? "" : icon)  + " " + level + "%"
+        onChargingChanged: {
+          if (charging)
+            root.showCharging();
+          else
+            root.chargeActive = false;
+        }
+
+        text: (charging ? icon : icon)  + " " + level + "%"
         color: charging ? "#a7c080" : level <= 15 ? "#e67e80" : "#dbbc7f"
         font.family: "JetBrainsMono Nerd Font"
         font.pixelSize: 13
@@ -306,6 +449,8 @@ Scope {
         anchors.rightMargin: 12
         anchors.verticalCenter: parent.verticalCenter
 
+        onLevelChanged: root.showOsd("[ brightness: " + level + "% ]", "#d3c6aa")
+
         property int level: 0
         property bool present: false
 
@@ -345,7 +490,7 @@ Scope {
         }
 
         Timer {
-          interval: 1000
+            interval: 200
           running: true
           repeat: true
           triggeredOnStart: true
@@ -376,6 +521,9 @@ Scope {
         // low, medium, high
         property var icons: ["󰕿", "󰖀", "󰕾"]
         property string icon: muted ? "󰝟" : icons[Math.min(2, Math.floor(level / 34))]
+
+        onLevelChanged: root.showOsd("[ volume: " + level + "% ]", "#d3c6aa")
+        onMutedChanged: root.showOsd(muted ? "[ volume: muted ]" : "[ volume:"  + " unmuted ]", muted ? "#e67e80" : "#a7c080")
 
         anchors.right: bright.left
         anchors.rightMargin: 12
@@ -438,6 +586,66 @@ Scope {
         font.family: "JetBrainsMono Nerd Font"
         font.pixelSize: 13
 
+        
+        // ---------- Connection state, for the overlay ----------
+        function refreshState() {
+          if (!stateProc.running)
+            stateProc.running = true;
+        }
+
+        Process {
+          id: stateProc
+          command: ["nmcli", "-t", "-f", "TYPE,STATE", "device"]
+
+          stdout: StdioCollector {
+            onStreamFinished: {
+              var lines = this.text.trim().split("\n");
+
+              for (var i = 0; i < lines.length; i++) {
+                if (lines[i].indexOf("wifi:") !== 0)
+                  continue;
+
+                var s = lines[i].substring(5);
+
+                if (s.indexOf("connecting") === 0)
+                  root.setWifiState("connecting");
+                else if (s.indexOf("connected") === 0)
+                  root.setWifiState("connected");
+                else
+                  root.setWifiState("disconnected");
+
+                break;
+              }
+            }
+          }
+        }
+
+        // nmcli monitor prints a line on every network event; any line means "check again"
+        Process {
+          running: true
+          command: ["nmcli", "monitor"]
+
+          stdout: SplitParser {
+            onRead: data => debounce.restart()
+          }
+        }
+
+        Timer {
+          id: debounce
+          interval: 150
+          onTriggered: wifi.refreshState()
+        }
+
+        // Slow fallback in case an event is missed
+        Timer {
+          interval: 5000
+          running: true
+          repeat: true
+          triggeredOnStart: true
+          onTriggered: wifi.refreshState()
+        }
+
+
         Process {
           id: wifiProc
           command: ["nmcli", "-t", "-f", "ACTIVE,RATE,SIGNAL", "dev", "wifi", "list", "--rescan", "no"]
@@ -478,8 +686,16 @@ Scope {
         MouseArea {
           anchors.fill: parent
           cursorShape: Qt.PointingHandCursor
-          onClicked: Quickshell.execDetached(["nm-connection-editor"])
+          acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+          onClicked: (mouse) => {
+            if (mouse.button === Qt.LeftButton)
+              Quickshell.execDetached(["sh", "-c", "[ \"$(nmcli radio wifi)\" = enabled ] && nmcli radio wifi off || nmcli radio wifi on"]);
+            else
+              Quickshell.execDetached(["nm-connection-editor"]);
+          }
         }
+
       }
 
       //BLUETOOTH
