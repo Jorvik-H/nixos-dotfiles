@@ -141,6 +141,8 @@ Scope {
       }
 
 
+
+
       // Brief "charging" message shown right after plugging in
       property bool chargeActive: false
 

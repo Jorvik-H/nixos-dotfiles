@@ -119,23 +119,28 @@ in
 
 #DOTFILES 
 
+#yazi
   home.file.".config/yazi" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/yazi";
     recursive = true; 
   };
 
+#bash
   home.file.".bashrc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/.bashrc";
 
+#neovim
   home.file.".config/nvim" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/nvim";
     recursive = true; 
   };
   
+#hyprland
   home.file.".config/hypr" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/hypr";
     recursive = true; 
   };
   
+#cursors
   home.file.".icons/Vimix-hypr" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/icons/cursor/Vimix-hypr";
     recursive = true; 
@@ -146,18 +151,27 @@ in
     recursive = true; 
   };
 
+#quickshell
   home.file.".config/quickshell" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/quickshell";
     recursive = true; 
   };
 
+#kitty
   home.file.".config/kitty" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/kitty";
     recursive = true; 
   };
   
+#themes
   home.file.".themes" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/.themes";
+    recursive = true; 
+  };
+
+#fastfetch
+  home.file.".config/fastfetch" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/fastfetch";
     recursive = true; 
   };
 }

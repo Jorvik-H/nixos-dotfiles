@@ -29,6 +29,12 @@
   };
 
   services.printing.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
   
   services.blueman.enable = true;
 
@@ -40,6 +46,8 @@
 
    virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "jorvik" ];
+
+  
 
 
 programs.steam = {
@@ -69,6 +77,8 @@ services.tlp.enable = true;
 
   programs.kdeconnect.enable = true;
 
+  services.upower.enable = true;
+
   users.users.jorvik = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networking" ]; 
@@ -76,6 +86,8 @@ services.tlp.enable = true;
       
     ];
   }; 
+  
+  services.gvfs.enable = true;
 
   environment.systemPackages = with pkgs; [
     #window manager shit
@@ -94,14 +106,14 @@ services.tlp.enable = true;
     ffmpeg
     bluez
     brightnessctl
-    upower
+    wine
+    usbutils
 
     #settings type shit
     hyprsunset
     nwg-look
     nwg-displays
     pavucontrol
-    impala
     blueman
     networkmanagerapplet
 
@@ -118,6 +130,8 @@ services.tlp.enable = true;
     prismlauncher
     obsidian
     chromium
+    stockfish
+    chessx
 
     #command line utilities
     fastfetch
@@ -128,6 +142,7 @@ services.tlp.enable = true;
     tree
     wl-clipboard
     cursor-clip
+    hyprshot
     p7zip
     cava
     tty-clock
@@ -135,6 +150,9 @@ services.tlp.enable = true;
     mpv
     _7zz
     unzip
+    uchess
+    feh
+    zathura
   ];
 
   fonts.packages = with pkgs; [

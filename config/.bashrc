@@ -12,6 +12,9 @@ alias grep='grep --color=auto'
 alias config='cd ~/nixos-dotfiles/config && eza -l'
 alias home='nvim ~/nixos-dotfiles/home.nix'
 alias pkg='nvim ~/nixos-dotfiles/configuration.nix'
+
+#wip shit aswell as nixos specific binds - come up with other binds if thats possible not on the other end
+#will also be with the other side of the lot = how many crabs are will you ever see the other one 
 alias notes='nvim ~/documents/Obsidian-Vault'
 alias nrs='sudo nixos-rebuild switch --flake ~/nixos-dotfiles'
 

@@ -1,0 +1,30 @@
+{
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "packages",
+    "shell",
+    "de",
+    "wm",
+    "wmtheme",
+    "terminal",
+    "terminalfont",
+    "cpu",
+    "gpu",
+    "memory",
+    "swap",
+    "disk",
+    "battery",
+    "localip",
+    "break",
+    "colors"
+  ],
+  "logo": {
+    "type": "auto",
+    //"source": "nixos2"
+  }
+}
