@@ -140,6 +140,13 @@ in
     recursive = true; 
   };
   
+#mango
+  home.file.".config/mango" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/config/mango";
+    recursive = true; 
+  };
+
+
 #cursors
   home.file.".icons/Vimix-hypr" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-dotfiles/icons/cursor/Vimix-hypr";

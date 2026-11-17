@@ -11,13 +11,18 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mangowm = {
+    url = "github:mangowm/mango";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, mangowm, ... }: {
     nixosConfigurations.HP-OfficeJet-Pro-1869 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
+        mangowm.nixosModules.mango
         home-manager.nixosModules.home-manager
         {
           home-manager = {

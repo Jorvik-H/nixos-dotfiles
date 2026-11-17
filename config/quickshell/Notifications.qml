@@ -2,9 +2,13 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Notifications
+import Quickshell.Wayland
 
 Scope {
   id: root
+
+  // Mango: put the center on the Bottom layer so the bar claims its space first
+  property bool lowerLayer: false
 
   property bool centerOpen: false
   property bool dnd: false
@@ -148,14 +152,15 @@ Scope {
       bottom: true
       right: true
     }
-    margins {
-      top: 7
+      margins {
+      top: root.lowerLayer ? 9 : 39
       bottom: 7
       right: 7
     }
 
-    implicitWidth: 320
+    implicitWidth: 360
     exclusionMode: ExclusionMode.Auto
+    WlrLayershell.layer: root.lowerLayer ? WlrLayer.Bottom : WlrLayer.Top
     visible: root.centerOpen
     color: "transparent"
 

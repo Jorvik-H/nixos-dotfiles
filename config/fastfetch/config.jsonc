@@ -1,7 +1,7 @@
 {
   "modules": [
     "title",
-    "separator",
+    "break",
     "os",
     "host",
     "kernel",
@@ -10,16 +10,13 @@
     "shell",
     "de",
     "wm",
-    "wmtheme",
     "terminal",
     "terminalfont",
     "cpu",
     "gpu",
     "memory",
-    "swap",
     "disk",
     "battery",
-    "localip",
     "break",
     "colors"
   ],

@@ -7,11 +7,14 @@
 
 #alias ls='ls -lh --color=auto'
 alias update='git add . && git commit -m "update" && git push'
-alias ls='eza -l'
+alias lt='eza -lm  --short-nix --hyperlink'
+alias ls='eza -lm  --short-nix --hyperlink --no-user --no-time '
+alias lsl='eza -lm  --short-nix --hyperlink --total-size -@ --git'
 alias grep='grep --color=auto'
 alias config='cd ~/nixos-dotfiles/config && eza -l'
 alias home='nvim ~/nixos-dotfiles/home.nix'
 alias pkg='nvim ~/nixos-dotfiles/configuration.nix'
+alias tree='eza -T --short-nix'
 
 #wip shit aswell as nixos specific binds - come up with other binds if thats possible not on the other end
 #will also be with the other side of the lot = how many crabs are will you ever see the other one 
@@ -24,11 +27,12 @@ export BROWSER='/usr/sbin/librewolf'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export BROWSER='librewolf'
-echo "$(fortune | cowsay)"
+echo "$(fortune -s | cowsay)"
 #PS1='╭─$(pwd)
 #╰─><>'
 PS1='╭─[\[\e[94m\]$(pwd)\e[0m\]]
 ╰─><>'
+
 
 cursor_styles="\e[?
 ${cursor_style_full_block};c"

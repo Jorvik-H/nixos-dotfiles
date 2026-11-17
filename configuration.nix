@@ -89,6 +89,8 @@ services.tlp.enable = true;
   
   services.gvfs.enable = true;
 
+  programs.mango.enable = true;
+
   environment.systemPackages = with pkgs; [
     #window manager shit
     awww
@@ -153,6 +155,13 @@ services.tlp.enable = true;
     uchess
     feh
     zathura
+    wlr-randr
+
+#C DEV ENVIORMENT 
+    cmake 
+    gcc
+    codespell
+    cppcheck
   ];
 
   fonts.packages = with pkgs; [

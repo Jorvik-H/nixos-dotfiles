@@ -7,9 +7,21 @@ import Quickshell.Services.Pipewire
 import Quickshell.Bluetooth
 
 Scope {
+
+id: shell
+
+  // True under Hyprland; anything else is treated as Mango
+  readonly property bool isHyprland: !!Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")
+
+  Mango { id: mango; active: !shell.isHyprland }
+
   // Created once, outside the per-monitor bar
-  Notifications {}
   Launcher { id: launcher }
+
+  Notifications {
+    lowerLayer: !shell.isHyprland
+  }
+
   Media {}
 
   Variants {
@@ -28,8 +40,7 @@ Scope {
       color: "#333c43"
 
       // True only on the monitor that was focused when the launcher opened
-      property bool launching: launcher.open && launcher.monitorName === modelData.name
-
+      property bool launching: launcher.open && (launcher.monitorName === "" || launcher.monitorName === modelData.name)
       // The bar needs keyboard focus to receive typing
       WlrLayershell.keyboardFocus: launching ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
@@ -201,7 +212,7 @@ Scope {
         visible: !root.launching
 
         Repeater {
-          model: 9
+          model: shell.isHyprland ? 9 : 0
 
           Text {
             id: ws
@@ -234,7 +245,7 @@ Scope {
         }
 
         Repeater {
-          model: Hyprland.workspaces
+          model: shell.isHyprland ? Hyprland.workspaces : null
 
           Text {
             id: extra
@@ -254,10 +265,38 @@ Scope {
             MouseArea {
               anchors.fill: parent
               cursorShape: Qt.PointingHandCursor
-              onClicked: Hyprland.dispatch("workspace " + extra.modelData.id)
+              onClicked: Quickshell.execDetached(["mmsg", "dispatch", "view," + (tag.index + 1)])
             }
           }
         }
+        // Mango tags (per monitor)
+        Repeater {
+          model: shell.isHyprland ? 0 : Math.max(9, mango.tagsFor(root.modelData.name).length)
+
+          Text {
+            id: tag
+            required property int index
+
+            property var info: mango.tagsFor(root.modelData.name)[index] ?? null
+            property bool isFocused: info !== null && info.state === 1
+            property bool isUrgent: info !== null && info.state === 2
+            property bool isOccupied: info !== null && info.clients > 0
+
+            text: isFocused ? (isOccupied ? "▪" : "▪") : (isOccupied ? "▪" : "▫")
+            color: isUrgent ? "#e67e80"
+                 : isFocused ? "#d699b6"
+                 : "#d3c6aa"
+            font.pixelSize: 18
+
+            MouseArea {
+              anchors.fill: parent
+              cursorShape: Qt.PointingHandCursor
+              onClicked: Quickshell.execDetached(["mmsg", "-t", String(tag.index + 1)])
+            }
+          }
+        }
+
+
       }
 
       //CPU USAGE

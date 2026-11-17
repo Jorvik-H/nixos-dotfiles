@@ -99,16 +99,54 @@ Scope {
     launch(best);
     open = false;
   }
+  // Mango: ask which monitor is focused, then open on it
+  Process {
+    id: focusProc
+    command: ["mmsg", "get", "all-monitors"]
+
+    stdout: StdioCollector {
+      onStreamFinished: {
+        var name = "";
+
+        try {
+          var mons = JSON.parse(this.text).monitors;
+          for (var i = 0; i < mons.length; i++) {
+            if (mons[i].active) {
+              name = mons[i].name;
+              break;
+            }
+          }
+        } catch (e) {
+          // fall through: an empty name means "every monitor"
+        }
+
+        root.monitorName = name;
+        root.open = true;
+      }
+    }
+  }
 
   IpcHandler {
     target: "launcher"
 
     function toggle(): void {
-      // Remember the focused monitor when opening, so the launcher stays put
-      if (!root.open)
-        root.monitorName = Hyprland.focusedMonitor ? Hyprland.focusedMonitor.name : "";
+      if (root.open) {
+        root.open = false;
+        return;
+      }
 
-      root.open = !root.open;
+      if (!!Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")) {
+        root.monitorName = Hyprland.focusedMonitor ? Hyprland.focusedMonitor.name : "";
+        root.open = true;
+      } else if (!!Quickshell.env("MANGO_INSTANCE_SIGNATURE")) {
+        // Opens when the answer arrives, a few milliseconds later
+        if (!focusProc.running)
+          focusProc.running = true;
+      } else {
+        root.monitorName = "";
+        root.open = true;
+      }
     }
   }
+
 }
