@@ -207,7 +207,10 @@ id: shell
       Row {
         anchors.left: parent.left
         anchors.leftMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 2.5
+
+
         spacing: 12
         visible: !root.launching
 

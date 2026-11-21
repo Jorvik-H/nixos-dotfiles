@@ -119,7 +119,7 @@ services.tlp.enable = true;
     blueman
     networkmanagerapplet
 
-    #regular ass aplications
+    #regular ass applications
     neovim
     yazi
     librewolf
@@ -132,8 +132,6 @@ services.tlp.enable = true;
     prismlauncher
     obsidian
     chromium
-    stockfish
-    chessx
 
     #command line utilities
     fastfetch
@@ -156,8 +154,10 @@ services.tlp.enable = true;
     feh
     zathura
     wlr-randr
+    yt-dlp
 
 #C DEV ENVIORMENT 
+    gnumake
     cmake 
     gcc
     codespell
